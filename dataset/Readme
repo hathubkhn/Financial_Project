@@ -1,1 +1,22 @@
 Create database using Postgresql
+
+A. Install postgresql in linux system 
+1. sudo apt-get install postgresql-11
+2. su - postgres
+3. psql
+
+B. Create database and table
+1. CREATE DATABASE stock_price
+2. #Run source code
+  #====================== KOSPI ====================
+  python DBUpdate.py
+  
+  # ===================== S&P 500 ===================
+  python DBUpdate_SP500.py
+  
+  # ===================== NASDAQ ====================
+  python DBUpdate_NASDAQ.py
+
+3. Extract data from database
+  python Analyzer.py -index {code of company} -s {start_date} -e {end_date}
+  
