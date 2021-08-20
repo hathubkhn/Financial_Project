@@ -3,6 +3,7 @@ import psycopg2
 from datetime import datetime
 from datetime import timedelta
 import re
+import argparse
 
 class KRXMarketDB:
     def __init__(self):
@@ -84,3 +85,15 @@ class KRXMarketDB:
         df = pd.read_sql(sql, self.conn)
         df.index = df['date']
         return df 
+   
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-index', '--code', type = str, help = 'Input index of stock')
+    parser.add_argument('-s', '--start_date', type = str, default = "", help = 'Start date')
+    parser.add_argument('-e', '--end_date', type = str, default = "", help = 'End date')
+
+    args = parser.parse_args()
+    dbu = KRXMarketDB()
+    code = str(args.code)
+    df = dbu.get_daily_price(code, args.start_date, args.end_date)
+    df.to_csv(f'{code}.csv', sep = '\t', index = False)
